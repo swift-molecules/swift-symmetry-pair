@@ -1,0 +1,63 @@
+// swift-tools-version: 6.4
+
+import PackageDescription
+
+let package = Package(
+    name: "swift-symmetry-pair",
+    platforms: [
+        .macOS(.v27),
+        .iOS(.v27),
+        .tvOS(.v27),
+        .watchOS(.v27),
+        .visionOS(.v27),
+    ],
+    products: [
+        .library(
+            name: "Symmetry Pair",
+            targets: ["Symmetry Pair"]
+        ),
+    ],
+    dependencies: [
+        .package(
+            url: "https://github.com/swift-molecules/swift-symmetry.git",
+            branch: "main"
+        ),
+        .package(
+            url: "https://github.com/swift-atoms/swift-pair.git",
+            branch: "main"
+        ),
+    ],
+    targets: [
+        .target(
+            name: "Symmetry Pair",
+            dependencies: [
+                .product(name: "Symmetry", package: "swift-symmetry"),
+                .product(name: "Pair", package: "swift-pair"),
+            ]
+        ),
+        .testTarget(
+            name: "Symmetry Pair Tests",
+            dependencies: [
+                "Symmetry Pair",
+                .product(name: "Symmetry", package: "swift-symmetry"),
+            ]
+        ),
+    ],
+    swiftLanguageModes: [.v6]
+)
+
+for target in package.targets where ![.system, .binary, .plugin, .macro].contains(target.type) {
+    let ecosystem: [SwiftSetting] = [
+        .strictMemorySafety(),
+        .enableUpcomingFeature("ExistentialAny"),
+        .enableUpcomingFeature("InternalImportsByDefault"),
+        .enableUpcomingFeature("MemberImportVisibility"),
+        .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
+        .enableExperimentalFeature("Lifetimes"),
+        .enableUpcomingFeature("InferIsolatedConformances"),
+    ]
+
+    let package: [SwiftSetting] = []
+
+    target.swiftSettings = (target.swiftSettings ?? []) + ecosystem + package
+}
