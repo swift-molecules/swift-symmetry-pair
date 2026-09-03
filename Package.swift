@@ -38,7 +38,6 @@ let package = Package(
         .testTarget(
             name: "Symmetry Pair Tests",
             dependencies: [
-                "Symmetry Pair",
                 .product(name: "Symmetry", package: "swift-symmetry"),
                 .product(name: "Pair", package: "swift-pair"),
             ]
