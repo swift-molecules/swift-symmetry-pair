@@ -15,7 +15,7 @@ let package = Package(
         .library(
             name: "Symmetry Pair",
             targets: ["Symmetry Pair"]
-        ),
+        )
     ],
     dependencies: [
         .package(
@@ -38,6 +38,7 @@ let package = Package(
         .testTarget(
             name: "Symmetry Pair Tests",
             dependencies: [
+                .target(name: "Symmetry Pair"),
                 .product(name: "Symmetry", package: "swift-symmetry"),
                 .product(name: "Pair", package: "swift-pair"),
             ]
@@ -47,14 +48,15 @@ let package = Package(
 )
 
 for target in package.targets where ![.system, .binary, .plugin, .macro].contains(target.type) {
-    target.swiftSettings = (target.swiftSettings ?? []) + [
-        .strictMemorySafety(),
-        .enableUpcomingFeature("ExistentialAny"),
-        .enableUpcomingFeature("InternalImportsByDefault"),
-        .enableUpcomingFeature("MemberImportVisibility"),
-        .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
-        .enableUpcomingFeature("InferIsolatedConformances"),
-        .enableExperimentalFeature("Lifetimes"),
-        .treatAllWarnings(as: .error),
-    ]
+    target.swiftSettings =
+        (target.swiftSettings ?? []) + [
+            .strictMemorySafety(),
+            .enableUpcomingFeature("ExistentialAny"),
+            .enableUpcomingFeature("InternalImportsByDefault"),
+            .enableUpcomingFeature("MemberImportVisibility"),
+            .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
+            .enableUpcomingFeature("InferIsolatedConformances"),
+            .enableExperimentalFeature("Lifetimes"),
+            .treatAllWarnings(as: .error),
+        ]
 }
